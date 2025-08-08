@@ -6,6 +6,7 @@ import { Textarea } from "@/components/Textarea";
 import { Label } from "@/components/Label";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import api from "@/api";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -19,27 +20,47 @@ export default function Contact() {
   const [subscribing, setSubscribing] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields.",
-        variant: "destructive",
-      });
-      return;
-    }
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      toast({
-        title: "Success",
-        description: "Message sent successfully! (Mocked)",
-      });
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 1000);
-  };
+  if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+    toast({
+      title: "Error",
+      description: "Please fill in all fields.",
+      variant: "destructive",
+    });
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const res = await api.post("/api/messages", formData);
+
+    if (res.status === 201) {
+      
+    toast({
+      title: "Message sent",
+      description: `Thank you, ${res.data.name}! We have received your message. We will reply soon`,
+    });
+  }
+
+    setFormData({ name: "", email: "", subject: "", message: "" });
+  } catch (err: any) {
+    const errorMsg =
+      err.response?.data?.message ||
+      err.response?.data?.errors?.[0]?.msg ||
+      "Something went wrong while sending your message.";
+
+    toast({
+      title: "Error",
+      description: errorMsg,
+      variant: "destructive",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -184,7 +205,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
-      
+
       <section className="py-16 bg-primary">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white mb-4">Stay Updated</h2>

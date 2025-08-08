@@ -1,5 +1,7 @@
 // src/App.tsx
 import { Routes, Route } from 'react-router-dom';
+import { ToastProvider, ToastViewport } from "@/components/Toast";
+import { Toaster } from "@/components/Toaster";
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -13,6 +15,8 @@ import Skills from './pages/Skills';
 function App() {
   return (
     <>
+     <ToastProvider>
+      <Toaster />
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,6 +28,8 @@ function App() {
         <Route path="/skills" element={<Skills />} />
       </Routes>
       <Footer/>
+      <ToastViewport />
+      </ToastProvider>
     </>
   );
 }
