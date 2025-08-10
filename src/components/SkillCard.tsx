@@ -14,7 +14,7 @@ const getProficiencyColor = (value: number) => {
 };
 
 export default function SkillCard({ skill }: SkillCardProps) {
-  const colorClass = getProficiencyColor(skill.proficiency);
+  const colorClass = getProficiencyColor(skill.percentage);
   const textColor = colorClass.replace("bg-", "text-");
   const fadedColor = `${colorClass}/10`;
 
@@ -30,16 +30,12 @@ export default function SkillCard({ skill }: SkillCardProps) {
           <div className="text-left">
             <h4 className="font-semibold text-slate-800 mb-2">{skill.name}</h4>
             <span className="text-sm text-green-600 font-medium">
-              {skill.proficiency}%
+              {skill.percentage}%
             </span>
           </div>
         </div>
 
-        <Progress value={skill.proficiency} className={`h-2 ${colorClass}`} />
-
-        <p className="text-sm text-slate-600 mt-2">
-          {skill.category} • {skill.proficiency}% proficiency
-        </p>
+        <Progress value={skill.percentage} className={`h-2 ${colorClass}`} />
       </CardContent>
     </Card>
   );

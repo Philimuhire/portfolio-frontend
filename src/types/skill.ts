@@ -1,6 +1,6 @@
 export interface Skill {
   id: string;
   name: string;
-  category: "Frontend" | "Backend" | "Tool" | "SoftSkill";
-  proficiency: number;
+  category: 'Frontend' | 'Backend' | 'DataAnalytics'| 'SystemAdministration'| 'Tool' | 'SoftSkill';
+  percentage: number;
 }
