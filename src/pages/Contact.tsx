@@ -62,27 +62,44 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!subscribeEmail) {
-      toast({
-        title: "Error",
-        description: "Please enter your email address.",
-        variant: "destructive",
-      });
-      return;
-    }
+  const handleSubscribe = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    setSubscribing(true);
-    setTimeout(() => {
-      setSubscribing(false);
+  if (!subscribeEmail) {
+    toast({
+      title: "Error",
+      description: "Please enter your email address.",
+      variant: "destructive",
+    });
+    return;
+  }
+
+  setSubscribing(true);
+  try {
+    const res = await api.post("/api/subscribe", { email: subscribeEmail });
+
+    if (res.status === 201) {
       toast({
-        title: "Success",
-        description: "Successfully subscribed to newsletter! (Mocked)",
+        title: "Subscribed",
+        description: `Thank you, for subscribing.`,
       });
       setSubscribeEmail("");
-    }, 1000);
-  };
+    }
+  } catch (err: any) {
+    const errorMsg =
+      err.response?.data?.message ||
+      err.response?.data?.errors?.[0]?.msg ||
+      "Something went wrong while subscribing.";
+
+    toast({
+      title: "Error",
+      description: errorMsg,
+      variant: "destructive",
+    });
+  } finally {
+    setSubscribing(false);
+  }
+};
 
   return (
     <div>
