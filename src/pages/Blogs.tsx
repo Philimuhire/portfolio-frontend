@@ -1,13 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import BlogCard from "@/components/BlogCard";
 import { useToast } from "@/hooks/use-toast";
 import type { Blog } from "@/types/blog";
-import { mockBlogs } from "@/data/mockBlogs";
+import api from "@/api"; 
 
 export default function Blogs() {
-  const [blogs] = useState<Blog[]>(mockBlogs); 
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await api.get("/api/blogs");
+        setBlogs(res.data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load blogs. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [toast]);
 
   const handleReactionToggle = (blogId: string) => {
     toast({
@@ -15,6 +36,14 @@ export default function Blogs() {
       description: `You liked blog ${blogId} (mocked)`,
     });
   };
+
+  if (loading) {
+    return (
+      <div className="text-center py-20 text-slate-600">
+        Loading blogs...
+      </div>
+    );
+  }
 
   return (
     <section className="py-20 bg-white">
@@ -37,7 +66,7 @@ export default function Blogs() {
           ))}
         </div>
 
-        {blogs.length === 0 && (
+        {blogs.length === 0 && !loading && (
           <div className="text-center py-12">
             <p className="text-slate-600">No blog posts available at the moment.</p>
           </div>

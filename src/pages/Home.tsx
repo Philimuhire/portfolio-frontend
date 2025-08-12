@@ -1,11 +1,35 @@
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/Button";
-import { mockProjects } from "@/data/mockProjects";
 import ProjectCard from "@/components/ProjectCard";
 import BlogCard from "@/components/BlogCard";
-import { mockBlogs } from "@/data/mockBlogs";
+import type { Project } from "@/types/project";
+import type { Blog } from "@/types/blog";
+import api from "@/api"; 
 
 export default function Home() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [projectsRes, blogsRes] = await Promise.all([
+          api.get<Project[]>("/api/projects"),
+          api.get<Blog[]>("/api/blogs"),
+        ]);
+        setProjects(projectsRes.data);
+        setBlogs(blogsRes.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div>
@@ -63,7 +87,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="p-4">
-              <div className="text-3xl font-bold text-primary mb-2">10+</div>
+              <div className="text-3xl font-bold text-primary mb-2">{projects.length}+</div>
               <div className="text-slate-600">Projects Completed</div>
             </div>
             <div className="p-4">
@@ -75,7 +99,7 @@ export default function Home() {
               <div className="text-slate-600">Technologies</div>
             </div>
             <div className="p-4">
-              <div className="text-3xl font-bold text-primary mb-2">3+</div>
+              <div className="text-3xl font-bold text-primary mb-2">{blogs.length}+</div>
               <div className="text-slate-600">Blog Posts</div>
             </div>
           </div>
@@ -89,11 +113,15 @@ export default function Home() {
             <p className="text-xl text-slate-600">Some of the work I'm proud of</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {mockProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
+          {loading ? (
+            <p className="text-center">Loading projects...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          )}
 
           <div className="text-center mt-12">
             <Link href="/projects">
@@ -112,11 +140,20 @@ export default function Home() {
             <p className="text-xl text-slate-600">Sharing knowledge and insights from my development journey</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {mockBlogs.map((blog) => (
-              <BlogCard key={blog.id} blog={blog} reactionCount={24} commentCount={8} />
-            ))}
-          </div>
+          {loading ? (
+            <p className="text-center">Loading blogs...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogs.map((blog) => (
+                <BlogCard 
+                  key={blog.id} 
+                  blog={blog} 
+                  reactionCount={24} 
+                  commentCount={8} 
+                />
+              ))}
+            </div>
+          )}
 
           <div className="text-center mt-12">
             <Link href="/blogs">
@@ -127,7 +164,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-     </div>
+    </div>
   );
 }
