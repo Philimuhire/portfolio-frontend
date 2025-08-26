@@ -35,9 +35,12 @@ export default function Projects() {
 
   return (
     <section className="px-4 md:px-12 py-10 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-center text-slate-800">
-        My Projects
+      <div className="text-center mb-16">
+      <h1 className="text-3xl font-bold mb-4 text-center text-slate-800">
+        Projects
       </h1>
+      <p className="text-xl text-slate-600">Showcasing some of my work.</p>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project) => (
           <ProjectCard key={project.id} project={project} />

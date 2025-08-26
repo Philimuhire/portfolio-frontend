@@ -50,7 +50,7 @@ export default function Blogs() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-4">Blog</h1>
-          <p className="text-xl text-slate-600">Thoughts, tutorials, and insights on web development</p>
+          <p className="text-xl text-slate-600">A space to share my thoughts and expertise on a variety of subjects.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

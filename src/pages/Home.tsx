@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/Button";
 import ProjectCard from "@/components/ProjectCard";
 import BlogCard from "@/components/BlogCard";
@@ -41,17 +41,18 @@ export default function Home() {
                 Hi, I'm <span className="text-primary">Philbert Muhire</span>
               </h1>
               <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-                A Data Analyst and Software Developer who loves working with data and building softwares. 
-                I turn raw information into useful insights and create tools that help solve real-world problems. 
-                My work combines analytical thinking with technical skills to make a real impact.
+                I am an IT Professional passionate about data, software development, and technology systems. 
+                I turn raw information into valuable insights, build tools that solve real-world problems, 
+                and ensure smooth IT operations. My work blends analytical thinking with technical expertise 
+                to deliver impactful solutions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/projects">
+                <Link to="/projects">
                   <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
                     View My Work
                   </Button>
                 </Link>
-                <Link href="/contact">
+                <Link to="/contact">
                   <Button variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-white">
                     Get In Touch
                   </Button>
@@ -65,7 +66,7 @@ export default function Home() {
                   <i className="fab fa-linkedin"></i>
                 </a>
                 <a href="https://x.com/PhilbertMuhire2" target="_blank" className="text-slate-600 hover:text-primary text-2xl transition-colors duration-300">
-                  <i className="fab fa-twitter"></i>
+                  <i className="fa-brands fa-x-twitter"></i>
                 </a>
                 <a href="mailto:philimuhire@gmail.com" target="_blank" className="text-slate-600 hover:text-primary text-2xl transition-colors duration-300">
                   <i className="fas fa-envelope"></i>
@@ -95,7 +96,7 @@ export default function Home() {
               <div className="text-slate-600">Years Experience</div>
             </div>
             <div className="p-4">
-              <div className="text-3xl font-bold text-primary mb-2">10+</div>
+              <div className="text-3xl font-bold text-primary mb-2">15+</div>
               <div className="text-slate-600">Technologies</div>
             </div>
             <div className="p-4">
@@ -124,7 +125,7 @@ export default function Home() {
           )}
 
           <div className="text-center mt-12">
-            <Link href="/projects">
+            <Link to="/projects">
               <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
                 View All Projects
               </Button>
@@ -137,7 +138,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-4">Latest Blog Posts</h2>
-            <p className="text-xl text-slate-600">Sharing knowledge and insights from my development journey</p>
+            <p className="text-xl text-slate-600">A space to share my thoughts and expertise on a variety of subjects.</p>
           </div>
 
           {loading ? (
@@ -156,7 +157,7 @@ export default function Home() {
           )}
 
           <div className="text-center mt-12">
-            <Link href="/blogs">
+            <Link to="/blogs">
               <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
                 View All Posts
               </Button>

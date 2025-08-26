@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
-export default function Navigation() {
-  const [location] = useLocation();
+interface NavigationProps {
+  onLogout: () => void;
+  token: string | null;
+}
+
+export default function Navigation({ onLogout, token }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navItems = [
     { href: "/", label: "Home" },
@@ -18,8 +23,8 @@ export default function Navigation() {
   ];
 
   const isActive = (path: string) => {
-    if (path === "/") return location === "/";
-    return location.startsWith(path);
+    if (path === "/") return location.pathname === "/";
+    return location.pathname.startsWith(path);
   };
 
   return (
@@ -27,28 +32,35 @@ export default function Navigation() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <Link href="/">
+            <Link to="/">
               <h1 className="text-xl font-bold text-primary cursor-pointer">Philbert Muhire</h1>
             </Link>
           </div>
-          
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navItems.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  <span
-                    className={cn(
-                      "px-3 py-2 text-sm font-medium transition-colors duration-300 cursor-pointer",
-                      isActive(item.href)
-                        ? "text-primary font-semibold"
-                        : "text-slate-600 hover:text-primary"
-                    )}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              ))}
-            </div>
+
+          <div className="hidden md:flex items-center space-x-4">
+            {navItems.map((item) => (
+              <Link key={item.href} to={item.href}>
+                <span
+                  className={cn(
+                    "px-3 py-2 text-sm font-medium transition-colors duration-300 cursor-pointer",
+                    isActive(item.href)
+                      ? "text-primary font-semibold"
+                      : "text-slate-600 hover:text-primary"
+                  )}
+                >
+                  {item.label}
+                </span>
+              </Link>
+            ))}
+
+            {location.pathname === "/admin" && token && (
+              <button
+                onClick={onLogout}
+                className="px-3 py-2 text-sm font-medium text-white bg-red-500 rounded hover:bg-red-600 transition-colors"
+              >
+                Logout
+              </button>
+            )}
           </div>
 
           <div className="md:hidden">
@@ -66,7 +78,7 @@ export default function Navigation() {
         <div className="md:hidden bg-white border-t">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
+              <Link key={item.href} to={item.href}>
                 <span
                   className={cn(
                     "block px-3 py-2 text-base font-medium cursor-pointer",
@@ -80,6 +92,18 @@ export default function Navigation() {
                 </span>
               </Link>
             ))}
+
+            {location.pathname === "/admin" && token && (
+              <button
+                onClick={() => {
+                  onLogout();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 text-base font-medium text-white bg-red-500 rounded hover:bg-red-600 transition-colors"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       )}

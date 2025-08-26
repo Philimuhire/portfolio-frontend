@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -8,19 +8,22 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <h3 className="text-2xl font-bold mb-4">Philbert Muhire</h3>
             <p className="text-slate-300 mb-6 max-w-md">
-              A Data Analyst and Software Developer who loves working with data and building softwares. I turn raw information into useful insights and create tools that help solve real-world problems. My work combines analytical thinking with technical skills to make a real impact.
+             I am an IT Professional passionate about data, software development, and technology systems. 
+             I turn raw information into valuable insights, build tools that solve real-world problems, and 
+             ensure smooth IT operations. My work blends analytical thinking with technical expertise to deliver 
+             impactful solutions.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300">
+              <a href="https://github.com/Philimuhire" target="_blank" className="text-slate-400 hover:text-white transition-colors duration-300">
                 <i className="fab fa-github text-xl"></i>
               </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300">
+              <a href="https://www.linkedin.com/in/philbert-muhire-182b96195/" target="_blank" className="text-slate-400 hover:text-white transition-colors duration-300">
                 <i className="fab fa-linkedin text-xl"></i>
               </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300">
-                <i className="fab fa-twitter text-xl"></i>
+              <a href="https://x.com/PhilbertMuhire2" target="_blank" className="text-slate-400 hover:text-white transition-colors duration-300">
+                <i className="fa-brands fa-x-twitter text-xl"></i>
               </a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors duration-300">
+              <a href="mailto:philimuhire@gmail.com" target="_blank" className="text-slate-400 hover:text-white transition-colors duration-300">
                 <i className="fas fa-envelope text-xl"></i>
               </a>
             </div>
@@ -29,12 +32,13 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><Link href="/"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Home</span></Link></li>
-              <li><Link href="/about"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">About</span></Link></li>
-              <li><Link href="/services"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Services</span></Link></li>
-              <li><Link href="/projects"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Projects</span></Link></li>
-              <li><Link href="/blogs"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Blog</span></Link></li>
-              <li><Link href="/contact"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Contact</span></Link></li>
+              <li><Link to="/"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Home</span></Link></li>
+              <li><Link to="/about"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">About</span></Link></li>
+              <li><Link to="/skills"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Skills</span></Link></li>
+              <li><Link to="/services"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Services</span></Link></li>
+              <li><Link to="/projects"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Projects</span></Link></li>
+              <li><Link to="/blogs"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Blog</span></Link></li>
+              <li><Link to="/contact"><span className="text-slate-300 hover:text-white transition-colors duration-300 cursor-pointer">Contact</span></Link></li>
             </ul>
           </div>
           

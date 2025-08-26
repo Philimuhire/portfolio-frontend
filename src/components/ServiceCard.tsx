@@ -9,12 +9,12 @@ interface ServiceCardProps {
 }
 
 const iconMap: Record<string, string> = {
-  "code": "fas fa-code",
-  "mobile-alt": "fas fa-mobile-alt", 
-  "database": "fas fa-database",
-  "cloud": "fas fa-cloud",
-  "search": "fas fa-search",
-  "cogs": "fas fa-cogs",
+  "web": "fas fa-code",       
+  "mobile": "fas fa-mobile-alt", 
+  "design": "fas fa-pencil-ruler",
+  "data": "fas fa-chart-bar",   
+  "support": "fas fa-headset", 
+  "graphic": "fas fa-paint-brush", 
 };
 
 export default function ServiceCard({ service }: ServiceCardProps) {
