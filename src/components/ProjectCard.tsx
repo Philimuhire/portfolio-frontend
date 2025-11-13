@@ -1,6 +1,7 @@
 import { ExternalLink, Github } from "lucide-react";
 import { Card, CardContent } from "@/components/Card";
 import { Badge } from "@/components/Badge";
+import { Link } from "react-router-dom";
 import type { Project } from "@/types/project";
 
 
@@ -18,7 +19,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       />
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xl font-semibold text-slate-800">{project.title}</h3>
+          <Link to={`/projects/${project.id}`}>
+            <h3 className="text-xl font-semibold text-slate-800 hover:text-primary transition-colors duration-300 cursor-pointer">
+              {project.title}
+            </h3>
+          </Link>
           <div className="flex gap-2">
             {project.githubLink && (
               <a 
@@ -54,17 +59,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           <span className="text-sm text-slate-500">
             {new Date(project.createdAt).toLocaleDateString()}
           </span>
-          {project.liveLink && (
-            <a 
-              href={project.liveLink} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-primary font-semibold hover:text-primary/80 transition-colors duration-300"
-            >
-              <ExternalLink className="w-4 h-4 inline mr-2" />
-              Live Demo
-            </a>
-          )}
+          <Link to={`/projects/${project.id}`} className="text-primary font-semibold hover:text-primary/80 transition-colors duration-300">
+            View More →
+          </Link>
         </div>
       </CardContent>
     </Card>
