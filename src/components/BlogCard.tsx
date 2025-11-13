@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/Card"
 import { Badge } from "@/components/Badge";
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import type { Blog } from "@/types/blog";
 
 interface BlogCardProps {
@@ -29,7 +29,7 @@ export default function BlogCard({
             </Badge>
           ))}
         </div>
-        <Link href={`/blogs/${blog.id}`}>
+        <Link to={`/blogs/${blog.id}`}>
           <h3 className="text-xl font-bold text-slate-800 mb-3 hover:text-primary transition-colors duration-300 cursor-pointer">
             {blog.title}
           </h3>
