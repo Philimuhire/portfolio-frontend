@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ToastProvider, ToastViewport } from "@/components/Toast";
 import { Toaster } from "@/components/Toaster";
+import { useAuth } from './contexts/AuthContext';
 import Navigation from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -13,20 +13,33 @@ import Services from './pages/Services';
 import Skills from './pages/Skills';
 import AdminPage from './pages/Admin';
 import LoginPage from './pages/LoginPage';
+import SingleBlog from './pages/SingleBlog';
+import SingleProject from './pages/SingleProject';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const { isAuthenticated, logout, isLoading } = useAuth();
+  const location = useLocation();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setToken(null); 
-  };
+  // Hide navbar and footer on admin and login pages
+  const hideLayout = location.pathname === '/admin' || location.pathname === '/login';
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-slate-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <ToastProvider>
       <Toaster />
-      <Navigation onLogout={handleLogout} token={token} />
+      {!hideLayout && <Navigation onLogout={logout} token={isAuthenticated ? "authenticated" : null} />}
 
       <ScrollToTop />
 
@@ -35,24 +48,26 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blogs/:id" element={<SingleBlog />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/projects/:id" element={<SingleProject />} />
         <Route path="/services" element={<Services />} />
         <Route path="/skills" element={<Skills />} />
 
         <Route
           path="/login"
-          element={token ? <Navigate to="/admin" replace /> : <LoginPage setToken={setToken} />}
+          element={isAuthenticated ? <Navigate to="/admin" replace /> : <LoginPage />}
         />
 
         <Route
           path="/admin"
-          element={token ? <AdminPage /> : <Navigate to="/login" replace />}
+          element={isAuthenticated ? <AdminPage /> : <Navigate to="/login" replace />}
         />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
-      <Footer />
+      {!hideLayout && <Footer />}
       <ToastViewport />
     </ToastProvider>
   );
